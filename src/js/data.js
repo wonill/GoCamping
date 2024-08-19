@@ -12,7 +12,7 @@ export {
 // const API_KEY_ENCODE = `cJcy2xKvqpNiaNiLtIIKlDtZ5T2lgeZ48bDzF4oIGTkHDiQe1o3k%2FzAr2CQJm4YxiB7%2BDVdpBeJeUIZT%2Bnmy%2FA%3D%3D`;
 // const API_KEY_DECODE =
 //   "cJcy2xKvqpNiaNiLtIIKlDtZ5T2lgeZ48bDzF4oIGTkHDiQe1o3k/zAr2CQJm4YxiB7+DVdpBeJeUIZT+nmy/A==";
-const API_KEY_ENCODE = import.meta.env.VITE_PUBLIC_DATA_API_KEY_ENCODE;
+// const API_KEY_ENCODE = import.meta.env.VITE_PUBLIC_DATA_API_KEY_ENCODE;
 const API_KEY_DECODE = import.meta.env.VITE_PUBLIC_DATA_API_KEY_DECODE;
 ("cJcy2xKvqpNiaNiLtIIKlDtZ5T2lgeZ48bDzF4oIGTkHDiQe1o3k/zAr2CQJm4YxiB7+DVdpBeJeUIZT+nmy/A==");
 let url = new URL(`https://apis.data.go.kr`);
