@@ -198,7 +198,7 @@ const init = () => {
   const script = document.createElement("script");
   console.log(kakaoMapApiKey);
   script.type = "text/javascript";
-  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false`;
+  script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false`;
   console.log("start");
   document.head.appendChild(script);
   script.onload = () => {
