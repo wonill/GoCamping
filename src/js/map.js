@@ -89,7 +89,7 @@ const createCustomOverlay = (marker, campingSite) => {
       `                <img src="${
         campingSite.firstImageUrl
           ? campingSite.firstImageUrl
-          : "../assets/images/no_image.png"
+          : "/src/assets/images/no_image.png"
       }" width="73" height="70">` +
       "           </div>" +
       `            <div class="info_window_desc">` +

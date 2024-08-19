@@ -138,7 +138,7 @@ const createHtml = (campingSite) => {
 const setDetailSection = (campingSite) => {
   $facilityName.textContent = campingSite.facltNm;
   $campingImage.src =
-    campingSite.firstImageUrl || "../assets/images/no_image2.png";
+    campingSite.firstImageUrl || "/src/assets/images/no_image2.png";
   $address.textContent = campingSite.addr1 || "제공된 정보 없음";
   $intro.textContent = campingSite.intro || "제공된 정보 없음";
   $homepage.href = campingSite.homepage;
