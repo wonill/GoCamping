@@ -138,7 +138,8 @@ const createHtml = (campingSite) => {
 const setDetailSection = (campingSite) => {
   $facilityName.textContent = campingSite.facltNm;
   $campingImage.src =
-    campingSite.firstImageUrl || "/src/assets/images/no_image2.png";
+    campingSite.firstImageUrl ||
+    "https://previews.123rf.com/images/pavelstasevich/pavelstasevich1902/pavelstasevich190200120/124934975-%EC%82%AC%EC%9A%A9-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%95%84%EC%9D%B4%EC%BD%98%EC%9D%B4-%EC%97%86%EC%8A%B5%EB%8B%88%EB%8B%A4-%EB%B2%A1%ED%84%B0-%ED%8F%89%EB%A9%B4.jpg";
   $address.textContent = campingSite.addr1 || "제공된 정보 없음";
   $intro.textContent = campingSite.intro || "제공된 정보 없음";
   $homepage.href = campingSite.homepage;

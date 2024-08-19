@@ -89,7 +89,8 @@ const createCustomOverlay = (marker, campingSite) => {
       `                <img src="${
         campingSite.firstImageUrl
           ? campingSite.firstImageUrl
-          : "/src/assets/images/no_image.png"
+          : // : "/src/assets/images/no_image.png"
+            "https://us.123rf.com/450wm/koblizeek/koblizeek2208/koblizeek220800254/190563481-no-image-vector-symbol-missing-available-icon-no-gallery-for-this-moment-placeholder.jpg"
       }" width="73" height="70">` +
       "           </div>" +
       `            <div class="info_window_desc">` +
