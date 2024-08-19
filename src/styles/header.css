@@ -1,0 +1,45 @@
+header {
+  /* border: solid 1px blue; */
+  width: 500px;
+  min-height: 100px;
+  height: 17vh;
+  padding: 1.5rem 1.7em;
+}
+
+header h1 img {
+  width: 16rem;
+  height: 3rem;
+  object-fit: contain;
+  /* border: solid 1px black; */
+}
+
+.search {
+  border: solid 2.5px lightblue;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 0.6rem;
+  height: 3.4rem;
+  padding: 0 1rem;
+  background-color: #f5fcff;
+  position: relative;
+}
+
+.search > input {
+  padding: 0.1rem;
+  width: 90%;
+  height: 100%;
+  font-size: 1.2rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.search > button {
+  background-color: transparent;
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  border: none;
+  cursor: pointer;
+}
