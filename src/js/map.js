@@ -89,7 +89,7 @@ const createCustomOverlay = (marker, campingSite) => {
       `                <img src="${
         campingSite.firstImageUrl
           ? campingSite.firstImageUrl
-          : "./src/assets/images/no_image.png"
+          : "/src/assets/images/no_image.png"
       }" width="73" height="70">` +
       "           </div>" +
       `            <div class="info_window_desc">` +
@@ -166,7 +166,6 @@ const clearMarkers = () => {
 
 function initializeMap(lat, lng) {
   center = new kakao.maps.LatLng(lat, lng);
-  console.log(4);
   let options = {
     center: center,
     // center: new kakao.maps.LatLng(37.7278127, 127.5112565),
@@ -196,17 +195,12 @@ const init = () => {
 
   const kakaoMapApiKey = import.meta.env.VITE_KAKAO_MAP_API_KEY;
   const script = document.createElement("script");
-  console.log(kakaoMapApiKey);
   script.type = "text/javascript";
-  script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false`;
-  console.log("start");
+  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false`;
   document.head.appendChild(script);
   script.onload = () => {
-    console.log(1);
     kakao.maps.load(() => {
-      console.log(2);
       if (navigator.geolocation) {
-        console.log(3);
         navigator.geolocation.getCurrentPosition(function (position) {
           // 현재 위치로 카카오 맵 표시
           lat = position.coords.latitude;
