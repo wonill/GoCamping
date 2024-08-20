@@ -29,25 +29,3 @@ $searchInput.addEventListener("keyup", (e) => {
 $searchBtn.addEventListener("click", () => {
   search($searchInput.value.trim());
 });
-
-// listElement.addEventListener("scroll", function () {
-//   const scrollPosition = this.scrollTop + this.clientHeight;
-//   const scrollHeight = this.scrollHeight;
-
-//   if (
-//     !isLoading &&
-//     scrollHeight > listElement.clientHeight &&
-//     scrollPosition > scrollHeight * 0.9
-//   ) {
-//     loadMoreData();
-//   }
-// });
-
-// function loadMoreData() {
-//   isLoading = true;
-//   let campingSites = getMoreData(lastDisplayIndex);
-
-//   setTimeout(() => {
-//     isLoading = false;
-//   }, 3000);
-// }

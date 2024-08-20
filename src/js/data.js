@@ -18,8 +18,6 @@ const mobileOS = "ETC";
 const mobileApp = "LOCACAMP";
 
 let campingSites;
-let markers;
-// let lastDisplayIndex = -1;
 
 const $detailSection = document.querySelector(".detail-section");
 const $list = document.querySelector(".list-section > .list");
@@ -56,43 +54,13 @@ const fetchCampingData = async (center, radius) => {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    console.log(data.response.body.items.item);
     campingSites = data.response.body.items.item;
+    chunkIndex = 0;
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error); // 에러 처리
   }
 
   return campingSites;
-};
-
-const testPrint = (campingSite) => {
-  let contentId = campingSite.contentId;
-  let facilityName = campingSite.facltNm;
-  let campingImage = campingSite.firstImageUrl;
-  let address = campingSite.addr1;
-  let intro = campingSite.intro;
-  let homepage = campingSite.homepage;
-  let manageStatus = campingSite.manageSttus;
-  let direction = campingSite.direction;
-  let reservationMethod = campingSite.resveCl;
-  let facilities = campingSite.glampInnerFclty;
-  let cookingItems = campingSite.eqpmnLendCl;
-  let allowPets = campingSite.animalCmgCl;
-  console.log(
-    contentId,
-    facilityName,
-    campingImage,
-    address,
-    campingSite.addr2,
-    intro,
-    homepage,
-    manageStatus,
-    direction,
-    reservationMethod,
-    facilities,
-    cookingItems,
-    allowPets
-  );
 };
 
 const setDetailSection = (campingSite) => {
@@ -164,7 +132,6 @@ const closeDetailSection = () => {
   $detailSection.classList.remove("open");
 };
 
-// const searchURL = `https://apis.data.go.kr/B551011/GoCamping/searchList?numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=LOCACAMP&serviceKey=${API_KEY_ENCODE}&_type=json&keyword=%EC%95%BC%EC%98%81%EC%9E%A5`;
 let searchURL = new URL(`https://apis.data.go.kr`);
 const fetchSearchData = async (keyword) => {
   searchURL.pathname = "/B551011/GoCamping/searchList";
@@ -178,22 +145,13 @@ const fetchSearchData = async (keyword) => {
   try {
     const res = await fetch(searchURL);
     const data = await res.json();
-    console.log(data.response.body.items.item);
     campingSites = data.response.body.items.item;
+    chunkIndex = 0;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
   return campingSites;
 };
-
-function isValidUrl(homepage) {
-  try {
-    new URL(homepage);
-    return true;
-  } catch (_) {
-    return false;
-  }
-}
 
 const createList = (campingSite) => {
   if (!campingSites) return;
@@ -238,7 +196,6 @@ const createList = (campingSite) => {
 
 const fillListSection = () => {
   $list.innerHTML = ``;
-  // let len = campingSites.length > 10 ? 10 : campingSites.length;
   if (!campingSites) return;
   let len = campingSites.length;
   for (let i = 0; i < len; i++) {
