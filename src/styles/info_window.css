@@ -28,12 +28,13 @@
   border: 0;
   box-shadow: 0px 1px 2px #888;
 }
+
 .info_window_info .info_window_title {
   padding: 5px 0 0 10px;
   height: 30px;
-  background: #eee;
+  background: #cafabc;
   border-bottom: 1px solid #ddd;
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: bold;
 }
 .info_window_info .info_window_close {
@@ -41,9 +42,10 @@
   top: 10px;
   right: 10px;
   color: #888;
-  width: 17px;
-  height: 17px;
+  width: 1rem;
+  height: 1rem;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
+  transform: translateY(-10%);
 }
 .info_window_info .info_window_close:hover {
   cursor: pointer;

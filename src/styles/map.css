@@ -1,0 +1,36 @@
+.map-section {
+  position: absolute;
+  width: calc(100% - 500px);
+  height: 100vh;
+  top: 0;
+  left: 500px;
+}
+
+#kakaoMap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#refreshMapBtn {
+  position: absolute;
+  width: 180px;
+  height: 50px;
+  left: 50%;
+  bottom: 15px;
+  transform: translateX(-50%);
+  background-color: white;
+  z-index: 100;
+  cursor: pointer;
+  display: none;
+  border: none;
+  border-radius: 20px;
+  background-color: rgb(92, 92, 248);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+#refreshMapBtn.on {
+  display: block;
+}

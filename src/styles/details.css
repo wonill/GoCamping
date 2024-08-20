@@ -1,14 +1,16 @@
+h2,
+strong {
+  font-weight: bold;
+}
+
 .detail-section {
   background-color: white;
   position: absolute;
   width: 500px;
-  /* padding: 2rem 1rem; */
   top: 100vh;
   left: 0%;
   transition: 0.5s ease;
-  font-size: 1.2rem;
-  /* overflow-x: hidden; */
-  /* overflow-y: auto; */
+  font-size: 1.1rem;
 }
 
 .detail-section.open {
@@ -36,7 +38,10 @@
 }
 
 .detail-section > div:not(:first-of-type) {
-  padding: 1rem;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 #campingImage img {
@@ -48,10 +53,51 @@
 
 .campingSiteData {
   height: calc(83vh - 300px);
-  border: solid 1px red;
   overflow-y: auto;
+}
+
+.campingSiteData #address {
+  font-size: 1.2rem;
+}
+
+.campingSiteData ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
 }
 
 .campingSiteData li {
   display: flex;
+  gap: 1rem;
+  line-height: 1.5rem;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.campingSiteData li strong {
+  text-wrap: nowrap;
+}
+
+.campingSiteData h2 {
+  font-size: 2rem;
+}
+
+.campingSiteData #facilities {
+  /* line-height: 1.5rem; */
+  align-self: flex-start;
+}
+
+.campingSiteData #intro {
+  padding-top: 20px;
+  display: none;
+}
+
+.campingSiteData #intro strong {
+  font-size: 1.4rem;
+}
+
+.campingSiteData #intro p {
+  padding: 1rem 0;
+  line-height: 1.6rem;
 }

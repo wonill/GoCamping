@@ -1,8 +1,12 @@
 import {
   fetchCampingData,
   setDetailSection,
-  removeDetailSection,
+  closeDetailSection,
+  fillListSection,
+  fetchSearchData,
 } from "./data.js";
+
+export { deactivateCampSite, clearMarkers, createMarkers };
 
 const markerSvgString = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M3 31.5V27C3 26.675 3.05 26.3625 3.15 26.0625C3.25 25.7625 3.4 25.475 3.6 25.2L16.125 8.32502L14.4 6.00002C14.275 5.82502 14.1875 5.64402 14.1375 5.45702C14.0875 5.27002 14.075 5.08252 14.1 4.89452C14.125 4.70652 14.1875 4.52502 14.2875 4.35002C14.3875 4.17502 14.525 4.02502 14.7 3.90002C15.05 3.65002 15.425 3.55002 15.825 3.60002C16.225 3.65002 16.55 3.85002 16.8 4.20002L18 5.81252L19.2 4.20002C19.45 3.85002 19.775 3.65002 20.175 3.60002C20.575 3.55002 20.95 3.65002 21.3 3.90002C21.65 4.15002 21.85 4.47502 21.9 4.87502C21.95 5.27502 21.85 5.65002 21.6 6.00002L19.875 8.32502L32.4 25.2C32.6 25.475 32.75 25.7625 32.85 26.0625C32.95 26.3625 33 26.675 33 27V31.5C33 31.925 32.8565 32.2815 32.5695 32.5695C32.2825 32.8575 31.926 33.001 31.5 33H4.5C4.075 33 3.719 32.856 3.432 32.568C3.145 32.28 3.001 31.924 3 31.5ZM12.3375 30H23.6625L18 22.0875L12.3375 30Z" fill="#F56652"/>
@@ -19,7 +23,8 @@ let activeId = "";
 const kakaoMap = document.getElementById("kakaoMap");
 const refreshMapBtn = document.getElementById("refreshMapBtn");
 const closeBtn = document.getElementById("close");
-// const $detailSection = document.querySelector(".detail-section");
+const $searchInput = document.querySelector(".search > input");
+const $list = document.querySelector(".list");
 
 function centerMapOnMarker(id) {
   const marker = markers.get(id);
@@ -28,7 +33,6 @@ function centerMapOnMarker(id) {
 
   // 마커가 지도 범위 내에 있는지 확인
   if (!mapBounds.contain(markerPosition)) {
-    // 마커가 지도 밖에 있으면 해당 위치로 지도 중심 이동
     map.setCenter(markerPosition);
   } else {
     // 마커가 지도 안에 있지만 가장자리에 있는지 확인
@@ -49,7 +53,6 @@ function centerMapOnMarker(id) {
     const threshold = Math.min(mapWidth, mapHeight) * 0.25;
 
     if (distanceX > threshold || distanceY > threshold) {
-      // 마커가 가장자리에 있으면 부드럽게 중심 이동
       map.panTo(markerPosition);
     }
   }
@@ -60,7 +63,7 @@ const deactivateCampSite = () => {
   for (let i = 0; i < overlays.length; i++) {
     overlays[i].setMap(null);
   }
-  removeDetailSection();
+  closeDetailSection();
 };
 window.deactivateCampSite = deactivateCampSite;
 
@@ -96,7 +99,11 @@ const createCustomOverlay = (marker, campingSite) => {
       `            <div class="info_window_desc">` +
       `                <div class="info_window_ellipsis">${campingSite.addr1}</div>` +
       `                <div class="info_window_jibun info_window_ellipsis">${campingSite.induty}</div>` +
-      `                <div><a href="${campingSite.homepage}" target="_blank" class="info_window_link">홈페이지</a></div>` +
+      `                <div><a href="${
+        campingSite.homepage || "javascript:void(0);"
+      }" ${
+        campingSite.homepage ? 'target="_blank"' : ""
+      } class="info_window_link">홈페이지</a></div>` +
       "            </div>" +
       "        </div>" +
       "    </div>" +
@@ -132,9 +139,11 @@ const getRadius = () => {
   return radius;
 };
 
-const createMarkers = async () => {
-  const campingSites = await fetchCampingData(center, getRadius());
-
+const createMarkers = async (keyword) => {
+  const campingSites = keyword
+    ? await fetchSearchData(keyword)
+    : await fetchCampingData(center, getRadius());
+  if (!campingSites) return;
   let marker;
   for (let i = 0; i < campingSites.length; i++) {
     let imageSize = new kakao.maps.Size(25, 25);
@@ -165,11 +174,10 @@ const clearMarkers = () => {
   }
 };
 
-function initializeMap(lat, lng) {
+const initializeMap = async (lat, lng) => {
   center = new kakao.maps.LatLng(lat, lng);
   let options = {
     center: center,
-    // center: new kakao.maps.LatLng(37.7278127, 127.5112565),
     level: 6,
   };
   console.log("현재 위치", lat, lng);
@@ -179,7 +187,8 @@ function initializeMap(lat, lng) {
     position: center,
     title: "현재 위치",
   });
-  createMarkers();
+  await createMarkers();
+  await fillListSection();
 
   let timer;
   kakao.maps.event.addListener(map, "bounds_changed", function () {
@@ -188,7 +197,7 @@ function initializeMap(lat, lng) {
       refreshMapBtn.classList.add("on");
     }, 1000); // 300ms 후에 실행
   });
-}
+};
 
 const init = () => {
   let lat;
@@ -201,6 +210,7 @@ const init = () => {
   document.head.appendChild(script);
   script.onload = () => {
     kakao.maps.load(() => {
+      window.kakao = kakao;
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
           // 현재 위치로 카카오 맵 표시
@@ -219,10 +229,13 @@ const init = () => {
   };
 };
 
-refreshMapBtn.addEventListener("click", () => {
+refreshMapBtn.addEventListener("click", async () => {
   center = map.getCenter();
-  clearMarkers();
-  createMarkers();
+  $searchInput.value = "";
+  await deactivateCampSite();
+  await clearMarkers();
+  await createMarkers();
+  await fillListSection();
   refreshMapBtn.classList.remove("on");
 });
 
@@ -230,28 +243,32 @@ closeBtn.addEventListener("click", () => {
   deactivateCampSite();
 });
 
+$list.addEventListener("mouseover", (e) => {
+  const liElement = e.target.closest("li");
+  if (!liElement || !liElement.dataset.id) return;
+  const id = liElement.dataset.id;
+  const marker = markers.get(id);
+  if (marker) {
+    kakao.maps.event.trigger(marker, "mouseover");
+  }
+});
+$list.addEventListener("mouseout", (e) => {
+  const liElement = e.target.closest("li");
+  if (!liElement || !liElement.dataset.id) return;
+  const id = liElement.dataset.id;
+  const marker = markers.get(id);
+  if (marker) {
+    kakao.maps.event.trigger(marker, "mouseout");
+  }
+});
+$list.addEventListener("click", (e) => {
+  const aElement = e.target.closest("a");
+  if (!aElement || !aElement.dataset.id) return;
+  const id = aElement.dataset.id;
+  const marker = markers.get(id);
+  if (marker) {
+    kakao.maps.event.trigger(marker, "click");
+  }
+});
+
 init();
-
-// $info_window_close.addEventListener("click", () => {
-//   closeOverlays();
-
-// });
-
-// setTimeout(() => {
-//   // document.querySelector(".data-section").classList.add("open");
-//   // // 현재 중심 좌표 가져오기
-//   // const currentCenter = map.getCenter();
-//   // const currentLng = currentCenter.getLng();
-//   // const currentLat = currentCenter.getLat();
-//   // // 현재 맵의 크기 가져오기
-//   // const mapWidth =
-//   //   map.getBounds().getNorthEast().getLng() -
-//   //   map.getBounds().getSouthWest().getLng();
-//   // // 12.5% 이동 거리 계산
-//   // const moveDistance = mapWidth / 6; // 전체 너비의 12.5%
-//   // // 새로운 경도 계산 (왼쪽으로 이동)
-//   // const newLng = currentLng - moveDistance;
-//   // // 새로운 중심 좌표 설정
-//   // const newCenter = new kakao.maps.LatLng(currentLat, newLng);
-//   // map.panTo(newCenter);
-// }, 3000);
