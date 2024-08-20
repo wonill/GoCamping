@@ -223,7 +223,7 @@ const createList = (campingSite) => {
                 <p class="addr">${campingSite.addr1}</p>
               </div>
               <div>
-                <img src="./src/assets/images/tel.png" alt="연락처" />
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiPebaQOzJl5_rzH_c5EAaygIuJdtp7n4I9Q3NowGU7jQF-ahw51tagfIJHb68un0xOJk&usqp=CAU" alt="연락처" />
                 <span class="tel">연락처 없음</span>
                 <a href="#" class="details" data-id="${
                   campingSite.contentId
