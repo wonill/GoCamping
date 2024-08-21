@@ -55,7 +55,6 @@ const fetchCampingData = async (center, radius) => {
     }
     const data = await response.json();
     campingSites = data.response.body.items.item;
-    chunkIndex = 0;
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error); // 에러 처리
   }
@@ -146,7 +145,6 @@ const fetchSearchData = async (keyword) => {
     const res = await fetch(searchURL);
     const data = await res.json();
     campingSites = data.response.body.items.item;
-    chunkIndex = 0;
   } catch (error) {
     console.error("Error fetching data:", error);
   }

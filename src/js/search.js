@@ -1,11 +1,8 @@
 import { fillListSection } from "./data.js";
 import { deactivateCampSite, clearMarkers, createMarkers } from "./map.js";
 
-let isLoading = false;
-
 let $searchInput = document.querySelector(".search > input");
 let $searchBtn = document.querySelector(".searchBtn");
-let $list = document.querySelector(".list-section > .list");
 
 document.addEventListener("DOMContentLoaded", function () {
   $searchInput.focus();
